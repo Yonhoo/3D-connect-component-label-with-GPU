@@ -21,7 +21,7 @@ This is my 3D parallel algorithm, but it is not perfect. It provides a way for y
 	我花了一个星期的时间学习了2D Parallel 算法和gpu 知识，然后写完了代码，但是gpu的调试，不简单，
 
 工具：
-		vs2015+cuda8.0+nsight visual studio
+		vs2015+cuda8.0+nsight visual studio +itk+opencv（我的输入是ct文件 .dom series数据,然后将其转化为opencv mat 来处理）
 
 算法思路：
 		由于我是刚入门cuda编程，且时间有限，所以我并没有尝试每一篇论文的算法3D实现
