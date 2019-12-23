@@ -20,10 +20,10 @@ This is my 3D parallel algorithm, but it is not perfect. It provides a way for y
 	由于我给自己两个星期的时间，因此，我利用第一本书大体上学习了gpu的架构和理论部分，然后利用第二本进行简单的实践
 	我花了一个星期的时间学习了2D Parallel 算法和gpu 知识，然后写完了代码，但是gpu的调试，不简单，
 
-	工具：
+工具：
 		vs2015+cuda8.0+nsight visual studio
 
-	算法思路：
+算法思路：
 		由于我是刚入门cuda编程，且时间有限，所以我并没有尝试每一篇论文的算法3D实现
 		我选择了Oleksandr Kalentev 的算法，比较简单，其它几篇都有相应的优化，我暂时没有做
 		1、 将图片进行初始化标记，每个前景区域点标记为像素点索引值，这个很重要，这样把每个像素点当作一个独立的线程，
@@ -38,7 +38,7 @@ This is my 3D parallel algorithm, but it is not perfect. It provides a way for y
        ![image3](https://github.com/Yonhoo/3D-connect-component-label-with-GPU/blob/master/image/1577113321(1).png)
 		4、 设置标志，每次新的循环中如果scann环节更新了图中的标记，将标志置为 1，直到在新的循环中 不再更新标记，scann结束
 
-	缺点：
+缺点：
 		很明显，这里有个缺点就是得到的标签矩阵并不是从1开始的标记值，并且是不连续的，他们都只是局部最小的索引值
 		而且，并没有每个连通域的size
 	我的实现优化部分：
@@ -51,7 +51,7 @@ This is my 3D parallel algorithm, but it is not perfect. It provides a way for y
 	
 
 
-	结果比较：
+结果比较：
 		这里通过我的GPU Parallel 算法，可以得到时间为2.799，比我之前写的CPU的广度搜索快了接近3倍
 		但是我承认我第一次写的GPU算法还是有一点不足的情况，就是我比较了github上一个star最多的人写的CPU  two pass method 3D CCL算法
 		比他写的优化版本，慢了0.9秒，这里我猜测一个是我需要进行cpu和gpu的切换，浪费了一点，然后grid和block的设置还是差强人意，
@@ -59,12 +59,12 @@ This is my 3D parallel algorithm, but it is not perfect. It provides a way for y
 		矩阵的数据是一维的，但我的block设置是(32,32,1),grid(divUp(WIDTH, TX), divUp(HEIGHT, TY), divUp(SLICE, TZ));
 		也就是我的block是二维的，grid是3维的
 
-	注意：
+注意：
 		这里我刚开始写完的时候，出了一点错误，但是调试却很困难，因为数据量太大，于是我就实验性的用8*8*8的数据进行测试，然后修改了一点错误
 		但是还有一点错误，弄了一天，终于解决了，需要提醒的是cuda编程，调试的话比较困难，最好是在运行前用肉眼调试，
 		看看自己的代码逻辑和小细节是否有错误
 
-	待改进之处：
+待改进之处：
 		实现连续标记值+得到每个连通域的size；
 		我想的是，为了避免在cpu上一个一个的找，我可以在gpu执行过程中记录相应的根节点，并排序
 		然后通过矩阵相乘，比如，有个局部最小根节点573，那么就用一列和标记矩阵相乘，某一行是573的为1，否则为0，
