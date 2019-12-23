@@ -31,13 +31,13 @@ This is my 3D parallel algorithm, but it is not perfect. It provides a way for y
                       					<img src="https://github.com/Yonhoo/3D-connect-component-label-with-GPU/blob/master/image/image.png" width="200"/>
 </div> 
         2、 主循环内进行scann分析。每个 GPU 线程对应一个像素点，首先判断是否为前景点， 如果是，在每个前景点周围 26 or 18 or 6 邻域内搜索，将此像素点周围 26 or 18 or 6邻域内（包括自身）所有的像素点 中最小的标记值赋值给此像素点作为标记，如下图所示。(此展示的是2维的情况)
-<center class="half">
+<div align=center>
                      <img src="https://github.com/Yonhoo/3D-connect-component-label-with-GPU/blob/master/image/1577113195(1).png" width="200"/>
-</center>    
+</div>    
         3、 analysis环节：每个 GPU 线程对应一个像素点，将此像素点标记值进行迭代，找到其局部最小的根节点(即最小索引值如下图：
-<center class="half">
+<div align=center>
                      <img src="https://github.com/Yonhoo/3D-connect-component-label-with-GPU/blob/master/image/1577113321(1).png" width="200"/>
-</center>  
+</div>  
         4、 设置标志，每次新的循环中如果scann环节更新了图中的标记，将标志置为 1，直到在新的循环中 不再更新标记，scann结束
 
 缺点：
