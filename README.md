@@ -27,9 +27,9 @@ This is my 3D parallel algorithm, but it is not perfect. It provides a way for y
 		由于我是刚入门cuda编程，且时间有限，所以我并没有尝试每一篇论文的算法3D实现
 		我选择了Oleksandr Kalentev 的算法，比较简单，其它几篇都有相应的优化，我暂时没有做
 	1、 将图片进行初始化标记，每个前景区域点标记为像素点索引值，这个很重要，这样把每个像素点当作一个独立的线程，就不需要考虑相互依赖的关系，如下图：
-<center class="half">
+<div align=center>
                       					<img src="https://github.com/Yonhoo/3D-connect-component-label-with-GPU/blob/master/image/image.png" width="200"/>
-</center>  
+</div> 
         2、 主循环内进行scann分析。每个 GPU 线程对应一个像素点，首先判断是否为前景点， 如果是，在每个前景点周围 26 or 18 or 6 邻域内搜索，将此像素点周围 26 or 18 or 6邻域内（包括自身）所有的像素点 中最小的标记值赋值给此像素点作为标记，如下图所示。(此展示的是2维的情况)
 <center class="half">
                      <img src="https://github.com/Yonhoo/3D-connect-component-label-with-GPU/blob/master/image/1577113195(1).png" width="200"/>
