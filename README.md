@@ -28,13 +28,17 @@ This is my 3D parallel algorithm, but it is not perfect. It provides a way for y
 		我选择了Oleksandr Kalentev 的算法，比较简单，其它几篇都有相应的优化，我暂时没有做
 	1、 将图片进行初始化标记，每个前景区域点标记为像素点索引值，这个很重要，这样把每个像素点当作一个独立的线程，就不需要考虑相互依赖的关系，如下图：
 <center class="half">
-    <img src="https://github.com/Yonhoo/3D-connect-component-label-with-GPU/blob/master/image/image.png" width="200"/>
+                     <img src="https://github.com/Yonhoo/3D-connect-component-label-with-GPU/blob/master/image/image.png" width="200"/>
 </center>  
         2、 主循环内进行scann分析。每个 GPU 线程对应一个像素点，首先判断是否为前景点， 如果是，在每个前景点周围 26 or 18 or 6 邻域内搜索，将此像素点周围 26 or 18 or 6邻域内（包括自身）所有的像素点 中最小的标记值赋值给此像素点作为标记，如下图所示。(此展示的是2维的情况)
-      		![image2](https://github.com/Yonhoo/3D-connect-component-label-with-GPU/blob/master/image/1577113195(1).png)
-		3、 analysis环节：每个 GPU 线程对应一个像素点，将此像素点标记值进行迭代，找到其局部最小的根节点(即最小索引值如下图：
-       		![image3](https://github.com/Yonhoo/3D-connect-component-label-with-GPU/blob/master/image/1577113321(1).png)
-		4、 设置标志，每次新的循环中如果scann环节更新了图中的标记，将标志置为 1，直到在新的循环中 不再更新标记，scann结束
+<center class="half">
+                     <img src="https://github.com/Yonhoo/3D-connect-component-label-with-GPU/blob/master/image/1577113195(1).png" width="200"/>
+</center>    
+        3、 analysis环节：每个 GPU 线程对应一个像素点，将此像素点标记值进行迭代，找到其局部最小的根节点(即最小索引值如下图：
+<center class="half">
+                     <img src="https://github.com/Yonhoo/3D-connect-component-label-with-GPU/blob/master/image/1577113321(1).png" width="200"/>
+</center>  
+        4、 设置标志，每次新的循环中如果scann环节更新了图中的标记，将标志置为 1，直到在新的循环中 不再更新标记，scann结束
 
 缺点：
 	很明显，这里有个缺点就是得到的标签矩阵并不是从1开始的标记值，并且是不连续的，他们都只是局部最小的索引值
