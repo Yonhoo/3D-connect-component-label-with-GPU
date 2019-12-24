@@ -716,11 +716,13 @@ public:
 	
 	std::shared_ptr<cv::Mat> binary_mat(const char *file_path,int *slice_num);
 
-	unordered_map<int, int> GPU_conn_26(std::shared_ptr<cv::Mat> b_m, const int slice_num, std::unordered_map<int, int> &conn_map);
+	unordered_map<int, int> GPU_conn_26(std::shared_ptr<cv::Mat> b_m, 
+					    const int slice_num, 
+					    std::unordered_map<int, int> &conn_map);
 
 	void CPU_conn_26(std::shared_ptr<cv::Mat> mat_data, vector<vector<cv::Vec3i>> &result);
 
-	void CCL::conn_check(unordered_map<int, int> &gpu_conn, unordered_map<int, int> &cpu_conn);
+	void conn_check(unordered_map<int, int> &gpu_conn, unordered_map<int, int> &cpu_conn);
 
 	void git_3d_conn(uchar* label_data, unordered_map<int, int> &cpu_conn, int size[3]);
 
@@ -732,8 +734,6 @@ private:
 		const int WIDTH,
 		const int HEIGHT,
 		const int SLICE);
-
-	
 
 	std::shared_ptr<cv::Mat> Load_itk_series(const char *path);
 	
