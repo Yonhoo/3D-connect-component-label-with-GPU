@@ -5,13 +5,13 @@ This is my 3D parallel algorithm, but it is not perfect. It provides a way for y
 &emsp;&emsp;&emsp;由于医学项目中需要实现3D连通域算法，matlab有自带的3D连通域算法，挺快的<br/>
 &emsp;&emsp;&emsp;但是要实现c++版本，2d连通域实现的算法思路上就是two pass method，<br/>
 &emsp;&emsp;&emsp;当时我为了快速实现，就直接写了一个广度搜索的3d连通域算法，可想而知，时间上会很慢<br/>
-&emsp;&emsp;&emsp;于是，我想能不能实现一个并行的3D连通域算法呢，于是我google，发现了几篇很好的with gpu的2D CCL，但并没有3D &emsp;&emsp;&emsp;Parallel，发现主要思想还是two pass method，不过因为并行，所以需要考虑每个像素点的独立，在这里进行了处理
+&emsp;&emsp;&emsp;于是，我想能不能实现一个并行的3D连通域算法呢，于是我google，发现了几篇很好的with gpu的2D CCL，但并没有3D Parallel，发现主要思想还是two pass method，不过因为并行，所以需要考虑每个像素点的独立，在这里进行了处理
 	 论文分别是：<br/>
 &emsp;&emsp;&emsp;&emsp;Parallel graph component labelling with GPUs and CUDA ----K.A. Hawick<br/>
 &emsp;&emsp;&emsp;&emsp;Connected component labeling on a 2D grid using CUDA ----Oleksandr Kalentev<br/>
 &emsp;&emsp;&emsp;&emsp;Connected Component Labeling in CUDA ----Ondrej Stava<br/>
 &emsp;&emsp;&emsp;&emsp;An Improved Parallel Connected Component Labeling Algorithm and Its GPU Implementation ----WANG Ze-Huan<br/>
-&emsp;&emsp;&emsp;论文我都仔细看了一下，由于我没有接触过cuda编程，因此我是从学习cuda编程开始<br/>
+&emsp;&emsp;论文我都仔细看了一下，由于我没有接触过cuda编程，因此我是从学习cuda编程开始<br/>
 &emsp;&emsp;&emsp;这两本书给了我很大的帮助：<br/>
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;CUDA C编程权威指南<br/>
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;CUDA 高性能并行计算<br/>
