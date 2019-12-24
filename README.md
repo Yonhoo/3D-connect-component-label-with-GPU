@@ -52,7 +52,7 @@ This is my 3D parallel algorithm, but it is not perfect. It provides a way for y
 &emsp;&emsp;&emsp;矩阵的数据是一维的，但我的block设置是(32,32,1),grid(divUp(WIDTH, TX), divUp(HEIGHT, TY), divUp(SLICE, TZ));也就是我的block是二维的，grid是3维的
 
 注意：<br/>
-&emsp;&emsp;&emsp;这里我刚开始写完的时候，出了一点错误，但是调试却很困难，因为数据量太大，于是我就实验性的用8*8*8的数据进行测试，然后修改了一点错误，但是还有一点错误，弄了一天，终于解决了，需要提醒的是cuda编程，调试的话比较困难，最好是在运行前用肉眼调试，看看自己的代码逻辑和小细节是否有错误
+&emsp;&emsp;&emsp;这里我刚开始写完的时候，出了一点错误，但是调试却很困难，因为数据量太大，于是我就实验性的用16x16x16的数据进行测试，然后修改了一点错误，但是还有一点错误，弄了一天，终于解决了，需要提醒的是cuda编程，调试的话比较困难，最好是在运行前用肉眼调试，看看自己的代码逻辑和小细节是否有错误
 
 待改进之处:<br/>
 &emsp;&emsp;&emsp;实现连续标记值+得到每个连通域的size；<br/>
