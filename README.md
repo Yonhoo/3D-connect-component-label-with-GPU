@@ -2,30 +2,28 @@
 This is my 3D parallel algorithm, but it is not perfect. It provides a way for you to optimize it. I hope someone can give a good opinion
 
 
-由于医学项目中需要实现3D连通域算法 
-	 matlab有自带的3D连通域算法，挺快的
-	 但是要实现c++版本，2d连通域实现的算法思路上就是two pass method，
-	 当时我为了图简单，就直接写了一个广度搜索的3d连通域算法，可想而知，时间上会很慢
-	 于是，我想能不能实现一个并行的3D连通域算法呢，于是我google，发现了几篇很好的with gpu的2D CCL，但并没有3D Parallel，
-	 download了下来，发现主要思想还是two pass method，不过因为并行，所以需要考虑每个像素点的独立，在这里进行了处理
-	 论文分别是：
-		Parallel graph component labelling with GPUs and CUDA ----K.A. Hawick
-		Connected component labeling on a 2D grid using CUDA ----Oleksandr Kalentev
-		Connected Component Labeling in CUDA ----Ondrej Stava
-		An Improved Parallel Connected Component Labeling Algorithm and Its GPU Implementation ----WANG Ze-Huan
-		论文我都仔细看了一下，由于我没有接触过cuda编程，因此我是从学习cuda编程开始
-	这两本书给了我很大的帮助：
-		CUDA C编程权威指南
-		CUDA 高性能并行计算
-	由于我给自己两个星期的时间，因此，我利用第一本书大体上学习了gpu的架构和理论部分，然后利用第二本进行简单的实践
-	我花了一个星期的时间学习了2D Parallel 算法和gpu 知识，然后写完了代码，但是gpu的调试，不简单，
+&emsp;&emsp;&emsp;由于医学项目中需要实现3D连通域算法，matlab有自带的3D连通域算法，挺快的<br/>
+&emsp;&emsp;&emsp;但是要实现c++版本，2d连通域实现的算法思路上就是two pass method，<br/>
+&emsp;&emsp;&emsp;当时我为了快速实现，就直接写了一个广度搜索的3d连通域算法，可想而知，时间上会很慢<br/>
+&emsp;&emsp;&emsp;于是，我想能不能实现一个并行的3D连通域算法呢，于是我google，发现了几篇很好的with gpu的2D CCL，但并没有3D &emsp;&emsp;&emsp;Parallel，发现主要思想还是two pass method，不过因为并行，所以需要考虑每个像素点的独立，在这里进行了处理
+	 论文分别是：<br/>
+&emsp;&emsp;&emsp;&emsp;Parallel graph component labelling with GPUs and CUDA ----K.A. Hawick<br/>
+&emsp;&emsp;&emsp;&emsp;Connected component labeling on a 2D grid using CUDA ----Oleksandr Kalentev<br/>
+&emsp;&emsp;&emsp;&emsp;Connected Component Labeling in CUDA ----Ondrej Stava<br/>
+&emsp;&emsp;&emsp;&emsp;An Improved Parallel Connected Component Labeling Algorithm and Its GPU Implementation ----WANG Ze-Huan<br/>
+&emsp;&emsp;&emsp;论文我都仔细看了一下，由于我没有接触过cuda编程，因此我是从学习cuda编程开始<br/>
+&emsp;&emsp;&emsp;这两本书给了我很大的帮助：<br/>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;CUDA C编程权威指南<br/>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;CUDA 高性能并行计算<br/>
+&emsp;&emsp;&emsp;由于我给自己两个星期的时间，因此，我利用第一本书大体上学习了gpu的架构和理论部分，然后利用第二本进行简单的实践<br/>
+&emsp;&emsp;&emsp;我花了一个星期的时间学习了2D Parallel 算法和gpu 知识，然后写完了代码，但是gpu的调试，不简单，<br/>
 
-工具：
-		vs2015+cuda8.0+nsight visual studio +itk+opencv（我的输入是ct文件 .dcm series数据,然后将其转化为opencv mat 来处理）
+工具：<br/>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;vs2015+cuda8.0+nsight visual studio +itk+opencv（我的输入是ct文件 .dcm series数据,然后将其转化为opencv mat 来处理）<br/>
 
-算法思路：
-		由于我是刚入门cuda编程，且时间有限，所以我并没有尝试每一篇论文的算法3D实现
-		我选择了Oleksandr Kalentev 的算法，比较简单，其它几篇都有相应的优化，我暂时没有做
+算法思路：<br/>
+&emsp;&emsp;&emsp;&emsp;由于我是刚入门cuda编程，且时间有限，所以我并没有尝试每一篇论文的算法3D实现<br/>
+&emsp;&emsp;&emsp;&emsp;我选择了Oleksandr Kalentev 的算法，比较简单，其它几篇都有相应的优化，我暂时没有做<br/>
 	1、 将图片进行初始化标记，每个前景区域点标记为像素点索引值，这个很重要，这样把每个像素点当作一个独立的线程，就不需要考虑相互依赖的关系，如下图：
 <div align=center>
                       					<img src="https://github.com/Yonhoo/3D-connect-component-label-with-GPU/blob/master/image/image.png" width="200"/>
