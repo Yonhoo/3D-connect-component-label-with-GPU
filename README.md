@@ -4,7 +4,7 @@ This is my 3D parallel algorithm, but it is not perfect. It provides a way for y
 
 &emsp;&emsp;&emsp;由于医学项目中需要实现3D连通域算法，matlab有自带的3D连通域算法，挺快的<br/>
 &emsp;&emsp;&emsp;但是要实现c++版本，2d连通域实现的算法思路上就是two pass method，<br/>
-&emsp;&emsp;&emsp;当时我为了快速实现，就直接写了一个广度搜索的3d连通域算法，可想而知，时间上会很慢<br/>
+&emsp;&emsp;&emsp;当时我为了快速实现，就直接写了一个广度搜索的3d连通域算法<br/>
 &emsp;&emsp;&emsp;于是，我想能不能实现一个并行的3D连通域算法呢，于是我google，发现了几篇很好的with gpu的2D CCL，但并没有3D Parallel，发现主要思想还是two pass method，不过因为并行，所以需要考虑每个像素点的独立，在这里进行了处理
 	 论文分别是：<br/>
 &emsp;&emsp;&emsp;&emsp;Parallel graph component labelling with GPUs and CUDA ----K.A. Hawick<br/>
@@ -47,8 +47,7 @@ This is my 3D parallel algorithm, but it is not perfect. It provides a way for y
 	
 
 结果比较：<br/>
-&emsp;&emsp;&emsp;这里通过我的GPU Parallel 算法，可以得到时间为2.799，比我之前写的CPU的广度搜索快了接近3倍
-&emsp;&emsp;&emsp;但是我第一次写的GPU算法还是有一点不足的情况，就是我比较了github上一个star最多的人写的CPU  two pass method 3D CCL算法比他写的优化版本，慢了0.9秒，这里我猜测一个是我需要进行cpu和gpu的切换，浪费了一点，然后grid和block的设置还是差强人意，然后就是还没学会使用gpu性能分析工具来优化我的cuda代码<br/>
+&emsp;&emsp;&emsp;这里通过我的GPU Parallel 算法，可以得到时间为2.799，这是我第一次写的GPU算法还是有一点不足的情况，就是我比较了github上一个star最多的人写的CPU  two pass method 3D CCL算法比他写的优化版本，慢了0.9秒，这里我猜测一个是我需要进行cpu和gpu的切换，浪费了一点，然后grid和block的设置还是差强人意，我觉得最重要的是我还没学会使用gpu性能分析工具来优化我的cuda代码<br/>
 &emsp;&emsp;&emsp;矩阵的数据是一维的，但我的block设置是(32,32,1),grid(divUp(WIDTH, TX), divUp(HEIGHT, TY), divUp(SLICE, TZ));也就是我的block是二维的，grid是3维的
 
 注意：<br/>
