@@ -54,76 +54,6 @@ __device__ void Host2share_26(const uint3 threadx,
 	const int *g_i)
 {
 	// Resolving overlapping parts
-	/*if (threadIdx.x < RAD&&threadIdx.y < RAD)
-	{
-		i = flatten(s_i[0] - RAD, s_i[1] - RAD, s_i[2], s_l[0], s_l[1], s_l[2]);
-		j = flatten(g_i[0] - RAD, g_i[1] - RAD, g_i[2], g_l[0], g_l[1], g_l[2]);
-		s_in[i] =origin_DATA[j];
-		i = flatten(s_i[0] + blockDim.x, s_i[1] - RAD, s_i[2], s_l[0], s_l[1], s_l[2]);
-		j = flatten(g_i[0] + blockDim.x, g_i[1] - RAD, g_i[2], g_l[0], g_l[1], g_l[2]);
-		s_in[i] =origin_DATA[j];
-		i = flatten(s_i[0] - RAD, s_i[1] + blockDim.y, s_i[2], s_l[0], s_l[1], s_l[2]);
-		j = flatten(g_i[0] - RAD, g_i[1] + blockDim.y, g_i[2], g_l[0], g_l[1], g_l[2]);
-		s_in[i] =origin_DATA[j];
-		i = flatten(s_i[0] + blockDim.x, s_i[1] + blockDim.y, s_i[2], s_l[0], s_l[1], s_l[2]);
-		j = flatten(g_i[0] + blockDim.x, g_i[1] + blockDim.y, g_i[2], g_l[0], g_l[1], g_l[2]);
-		s_in[i] =origin_DATA[j];
-	}
-	if (threadIdx.x < RAD&&threadIdx.z < RAD)
-	{
-		i = flatten(s_i[0] - RAD, s_i[1], s_i[2] - RAD, s_l[0], s_l[1], s_l[2]);
-		j = flatten(g_i[0] - RAD, g_i[1], g_i[2] - RAD, g_l[0], g_l[1], g_l[2]);
-		s_in[i] =origin_DATA[j];
-		i = flatten(s_i[0] + blockDim.x, s_i[1], s_i[2] - RAD, s_l[0], s_l[1], s_l[2]);
-		j = flatten(g_i[0] + blockDim.x, g_i[1], g_i[2] - RAD, g_l[0], g_l[1], g_l[2]);
-		s_in[i] =origin_DATA[j];
-		i = flatten(s_i[0] - RAD, s_i[1], s_i[2] + blockDim.z, s_l[0], s_l[1], s_l[2]);
-		j = flatten(g_i[0] - RAD, g_i[1], g_i[2] + blockDim.z, g_l[0], g_l[1], g_l[2]);
-		s_in[i] =origin_DATA[j];
-		i = flatten(s_i[0] + blockDim.x, s_i[1], s_i[2] + blockDim.z, s_l[0], s_l[1], s_l[2]);
-		j = flatten(g_i[0] + blockDim.x, g_i[1], g_i[2] + blockDim.z, g_l[0], g_l[1], g_l[2]);
-		s_in[i] =origin_DATA[j];
-	}
-	if (threadIdx.y < RAD&&threadIdx.z < RAD)
-	{
-		i = flatten(s_i[0], s_i[1] - RAD, s_i[2] - RAD, s_l[0], s_l[1], s_l[2]);
-		j = flatten(g_i[0], g_i[1] - RAD, g_i[2] - RAD, g_l[0], g_l[1], g_l[2]);
-		s_in[i] = origin_DATA[j];
-		i = flatten(s_i[0], s_i[1] + blockDim.y, s_i[2] - RAD, s_l[0], s_l[1], s_l[2]);
-		j = flatten(g_i[0], g_i[1] + blockDim.y, g_i[2] - RAD, g_l[0], g_l[1], g_l[2]);
-		s_in[i] = origin_DATA[j];
-		i = flatten(s_i[0], s_i[1] - RAD, s_i[2] + blockDim.z, s_l[0], s_l[1], s_l[2]);
-		j = flatten(g_i[0], g_i[1] - RAD, g_i[2] + blockDim.z, g_l[0], g_l[1], g_l[2]);
-		s_in[i] = origin_DATA[j];
-		i = flatten(s_i[0], s_i[1] + blockDim.y, s_i[2] + blockDim.z, s_l[0], s_l[1], s_l[2]);
-		j = flatten(g_i[0], g_i[1] + blockDim.y, g_i[2] + blockDim.z, g_l[0], g_l[1], g_l[2]);
-		s_in[i] = origin_DATA[j];
-	}
-	if (threadIdx.x < RAD) {
-		i = flatten(s_i[0] - RAD, s_i[1], s_i[2], s_l[0], s_l[1], s_l[2]);
-		j = flatten(g_i[0] - RAD, g_i[1], g_i[2], g_l[0], g_l[1], g_l[2]);
-		s_in[i] = origin_DATA[j];
-		i = flatten(s_i[0] + blockDim.x, s_i[1], s_i[2], s_l[0], s_l[1], s_l[2]);
-		j = flatten(g_i[0] + blockDim.x, g_i[1], g_i[2], g_l[0], g_l[1], g_l[2]);
-		s_in[i] = origin_DATA[j];
-	}
-	if (threadIdx.y < RAD) {
-		i = flatten(s_i[0], s_i[1] - RAD, s_i[2], s_l[0], s_l[1], s_l[2]);
-		j = flatten(g_i[0], g_i[1] - RAD, g_i[2], g_l[0], g_l[1], g_l[2]);
-		s_in[i] = origin_DATA[j];
-		i = flatten(s_i[0], s_i[1] + blockDim.y, s_i[2], s_l[0], s_l[1], s_l[2]);
-		j = flatten(g_i[0], g_i[1] + blockDim.y, g_i[2], g_l[0], g_l[1], g_l[2]);
-		s_in[i] = origin_DATA[j];
-	}
-	if (threadIdx.z < RAD) {
-		i = flatten(s_i[0], s_i[1], s_i[2] - RAD, s_l[0], s_l[1], s_l[2]);
-		j = flatten(g_i[0], g_i[1], g_i[2] - RAD, g_l[0], g_l[1], g_l[2]);
-		s_in[i] = origin_DATA[j];
-		i = flatten(s_i[0], s_i[1], s_i[2] + blockDim.z, s_l[0], s_l[1], s_l[2]);
-		j = flatten(g_i[0], g_i[1], g_i[2] + blockDim.z, g_l[0], g_l[1], g_l[2]);
-		s_in[i] =origin_DATA[j];
-	}*/
-	// Resolving overlapping parts
 	if (threadIdx.x < RAD&&threadIdx.y < RAD)
 	{
 		s_in[flatten(s_i[0] - RAD, s_i[1] - RAD, s_i[2], s_l[0], s_l[1], s_l[2])] =
@@ -175,7 +105,7 @@ __device__ void Host2share_26(const uint3 threadx,
 		s_in[flatten(s_i[0], s_i[1], s_i[2] + blockDim.z, s_l[0], s_l[1], s_l[2])] =
 			origin_DATA[flatten(g_i[0], g_i[1], g_i[2] + blockDim.z, g_l[0], g_l[1], g_l[2])];
 	}
-	if (threadIdx.z < RAD&&threadIdx.y < RAD&&threadIdx.z < RAD) {
+	if (threadIdx.x < RAD&&threadIdx.y < RAD&&threadIdx.z < RAD) {
 		s_in[flatten(s_i[0] - RAD, s_i[1] - RAD, s_i[2] + blockDim.z, s_l[0], s_l[1], s_l[2])] 
 			= origin_DATA[flatten(g_i[0] - RAD, g_i[1] - RAD, g_i[2] + blockDim.z, g_l[0], g_l[1], g_l[2])];
 		s_in[flatten(s_i[0] - RAD, s_i[1] - RAD, s_i[2] - RAD, s_l[0], s_l[1], s_l[2])]
@@ -371,6 +301,182 @@ __device__ void min_26_nbd(int data,
 	/*----------------above------------------------*/
 }
 
+inline
+__device__ void min_26_nbd_control_bound(
+	const int g_l[3],
+	const int g_in[3],
+	int data,
+	uchar* s_in,
+	int* L_label,
+	const int s_w,
+	int *label,
+	const int s_index,
+	const int  slice_area,
+	const int elpise)
+{
+	/*--------------current slice-----------------------*/
+	if (g_in[1] > 0) {
+		//up
+		if (diff(data, s_in[s_index - s_w]) <= elpise)
+			*label = min((int)*label, (int)L_label[s_index - s_w]);
+		if (g_in[0] > 0)
+		{
+			//up left
+			if (diff(data, s_in[s_index - s_w - 1]) <= elpise)
+				*label = min((int)*label, (int)L_label[s_index - s_w - 1]);
+		}
+		if (g_in[0] < g_l[0] - 1)
+		{
+			//up right
+			if (diff(data, s_in[s_index - s_w + 1]) <= elpise)
+				*label = min((int)*label, (int)L_label[s_index - s_w + 1]);
+		}
+
+	}
+	if (g_in[1] < g_l[1] - 1) {
+		//down
+		if (diff(data, s_in[s_index + s_w]) <= elpise)
+			*label = min((int)*label, (int)L_label[s_index + s_w]);
+		if (g_in[0] > 0)
+		{
+			//down left
+			if (diff(data, s_in[s_index + s_w - 1]) <= elpise)
+				*label = min((int)*label, (int)L_label[s_index + s_w - 1]);
+		}
+		if (g_in[0] < g_l[0] - 1)
+		{
+			//down right
+			if (diff(data, s_in[s_index + s_w + 1]) <= elpise)
+				*label = min((int)*label, (int)L_label[s_index + s_w + 1]);
+		}
+	}
+	if (g_in[0] > 0) {
+		//left
+		if (diff(data, s_in[s_index - 1]) <= elpise)
+			*label = min((int)*label, (int)L_label[s_index - 1]);
+	}
+	if (g_in[0] < g_l[0] - 1) {
+		//right
+		if (diff(data, s_in[s_index + 1]) <= elpise)
+			*label = min((int)*label, (int)L_label[s_index + 1]);
+	}
+	
+	
+	/*--------------up slice-----------------------*/
+	if (g_in[2] > 0)
+	{
+		//cur index
+		if (diff(data, s_in[s_index - slice_area]) <= elpise)
+			*label = min((int)*label, (int)L_label[s_index - slice_area]);
+		if (g_in[1] > 0) 
+		{
+			//up
+			if (diff(data, s_in[s_index - slice_area - s_w]) <= elpise)
+				*label = min((int)*label, (int)L_label[s_index - slice_area - s_w]);
+			if (g_in[0] > 0)
+			{
+				//up left
+				if (diff(data, s_in[s_index - slice_area - s_w - 1]) <= elpise)
+					*label = min((int)*label, (int)L_label[s_index - slice_area - s_w - 1]);
+			}
+			if (g_in[0] < g_l[0] - 1)
+			{
+				//up right
+				if (diff(data, s_in[s_index - slice_area - s_w + 1]) <= elpise)
+					*label = min((int)*label, (int)L_label[s_index - slice_area - s_w + 1]);
+			}
+		}
+		if (g_in[1] < g_l[1] - 1) {
+			//down
+			if (diff(data, s_in[s_index - slice_area + s_w]) <= elpise)
+				*label = min((int)*label, (int)L_label[s_index - slice_area + s_w]);
+			if (g_in[0] > 0)
+			{
+				//down left
+				if (diff(data, s_in[s_index - slice_area + s_w - 1]) <= elpise)
+					*label = min((int)*label, (int)L_label[s_index - slice_area + s_w - 1]);
+			}
+			if (g_in[0] < g_l[0] - 1)
+			{
+				//down right
+				if (diff(data, s_in[s_index - slice_area + s_w + 1]) <= elpise)
+					*label = min((int)*label, (int)L_label[s_index - slice_area + s_w + 1]);
+			}
+
+		}
+		if (g_in[0] > 0) {
+			//left
+			if (diff(data, s_in[s_index - slice_area - 1]) <= elpise)
+				*label = min((int)*label, (int)L_label[s_index - slice_area - 1]);
+		}
+		if (g_in[0] < g_l[0] - 1) {
+			//right
+			if (diff(data, s_in[s_index - slice_area + 1]) <= elpise)
+				*label = min((int)*label, (int)L_label[s_index - slice_area + 1]);
+		}
+		
+	}
+	
+	/*--------------down slice-----------------------*/
+	if (g_in[2] < g_l[2] - 1)
+	{
+		//cur index
+		if (diff(data, s_in[s_index + slice_area]) <= elpise)
+			*label = min((int)*label, (int)L_label[s_index + slice_area]);
+		if (g_in[1] > 0)
+		{
+			//up
+			if (diff(data, s_in[s_index + slice_area - s_w]) <= elpise)
+				*label = min((int)*label, (int)L_label[s_index + slice_area - s_w]);
+			if (g_in[0] > 0)
+			{
+				//up left
+				if (diff(data, s_in[s_index + slice_area - s_w - 1]) <= elpise)
+					*label = min((int)*label, (int)L_label[s_index + slice_area - s_w - 1]);
+			}
+			if (g_in[0] < g_l[0] - 1)
+			{
+				//up right
+				if (diff(data, s_in[s_index + slice_area - s_w + 1]) <= elpise)
+					*label = min((int)*label, (int)L_label[s_index + slice_area - s_w + 1]);
+			}
+		}
+		if (g_in[1] < g_l[1] - 1)
+		{
+			//down
+			if (diff(data, s_in[s_index + slice_area + s_w]) <= elpise)
+				*label = min((int)*label, (int)L_label[s_index + slice_area + s_w]);
+			if (g_in[0] > 0)
+			{
+				//down left
+				if (diff(data, s_in[s_index + slice_area + s_w - 1]) <= elpise)
+					*label = min((int)*label, (int)L_label[s_index + slice_area + s_w - 1]);
+			}
+			if (g_in[0] < g_l[0] - 1)
+			{
+				//down right
+				if (diff(data, s_in[s_index + slice_area + s_w + 1]) <= elpise)
+					*label = min((int)*label, (int)L_label[s_index + slice_area + s_w + 1]);
+			}
+		}
+		if (g_in[0] > 0)
+		{
+			//left
+			if (diff(data, s_in[s_index + slice_area - 1]) <= elpise)
+				*label = min((int)*label, (int)L_label[s_index + slice_area - 1]);
+		}
+		if (g_in[0] < g_l[0] - 1)
+		{
+			//right
+			if (diff(data, s_in[s_index + slice_area + 1]) <= elpise)
+				*label = min((int)*label, (int)L_label[s_index + slice_area + 1]);
+		}
+			
+	}
+	/*----------------above------------------------*/
+}
+
+
 //3d
 __global__
 void scanning26(unsigned char* origin_DATA,
@@ -436,7 +542,7 @@ void scanning26(unsigned char* origin_DATA,
 
 	if (label < s_lb[s_index]) {
 		//atomicMin(&R[L[id]], label);
-		R_label[s_lb[s_index]] = label;				//ĞŞ¸ÄµÄÊÇ
+		R_label[s_lb[s_index]] = label;				//ä¿®æ”¹çš„æ˜¯
 		*check = true;
 	}
 }
@@ -460,8 +566,8 @@ __global__ void analysis26(int* L_label,
 	int label = L_label[id];
 	int ref;
 	if (label == id) {
-		//ÕÒµ½ËüµÄ¾Ö²¿×îĞ¡ÖµÒòÎªµ±ÓÒ±ßR¾ØÕó¼ÇÂ¼ÁËÁìÓò×îĞ¡£¬ÄÇÃ´Ëü¾Í»á¼ÇÂ¼ÉÏÒ»¸ö×îĞ¡µÄ×îĞ¡
-		//Òò´ËÎÒÒ»Ö±µü´ú£¬¾ÍÕÒµ½ÁË¾Ö²¿×îĞ¡Öµ
+		//æ‰¾åˆ°å®ƒçš„å±€éƒ¨æœ€å°å€¼å› ä¸ºå½“å³è¾¹RçŸ©é˜µè®°å½•äº†é¢†åŸŸæœ€å°ï¼Œé‚£ä¹ˆå®ƒå°±ä¼šè®°å½•ä¸Šä¸€ä¸ªæœ€å°çš„æœ€å°
+		//å› æ­¤æˆ‘ä¸€ç›´è¿­ä»£ï¼Œå°±æ‰¾åˆ°äº†å±€éƒ¨æœ€å°å€¼
 		do{ 
 			label = R_label[ref = label]; 
 		}while (ref ^ label);
@@ -488,7 +594,7 @@ __global__ void labeling26(int* L_label,
 	if ((col >= w) || (row >= h) || (sli >= z))	return;
 	const int id = flatten(col, row, sli, w, h, z);
 
-	//´ËÊ±L[id]µÄ±êÇ©»¹ÊÇL[id]£¬¾Í»¹ÊÇµ±Ç°×îĞ¡
+	//æ­¤æ—¶L[id]çš„æ ‡ç­¾è¿˜æ˜¯L[id]ï¼Œå°±è¿˜æ˜¯å½“å‰æœ€å°
 	L_label[id] = R_label[R_label[L_label[id]]];
 }
 
